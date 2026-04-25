@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | SpendTrackFinance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338ca;
+            --secondary: #3B82F6;
+            --accent: #8B5CF6;
+            --bg-light: #F8FAFC;
+            --bg-white: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+            --error: #ef4444;
+            --success: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* --- LEFT PANEL --- */
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 15s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        .login-left .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-left-content {
+            position: relative;
+            z-index: 1;
+            max-width: 450px;
+        }
+
+        .login-left h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .login-left p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .testimonial {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .testimonial-text {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .login-left-footer {
+            margin-top: auto;
+            position: relative;
+            z-index: 1;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* --- RIGHT PANEL --- */
+        .login-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            background: var(--bg-white);
+        }
+
+        .login-form-container {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-form-header {
+            margin-bottom: 40px;
+        }
+
+        .login-form-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .login-form-header p {
+            color: var(--text-muted);
+        }
+
+        .login-form-header p a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .login-form-header p a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- FORM STYLES --- */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background: var(--bg-white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-input.error {
+            border-color: var(--error);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .form-error {
+            color: var(--error);
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .forgot-link {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.23);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid white;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- DIVIDER --- */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 30px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* --- SOCIAL LOGIN --- */
+        .social-login {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-white);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary);
+            background: var(--bg-light);
+        }
+
+        /* --- DEMO CREDENTIALS --- */
+        .demo-credentials {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 24px;
+        }
+
+        .demo-credentials-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #166534;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .demo-credentials-text {
+            font-size: 0.85rem;
+            color: #15803d;
+        }
+
+        .demo-credentials-text strong {
+            font-family: monospace;
+        }
+
+        /* --- SUCCESS MESSAGE --- */
+        .success-message {
+            display: none;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 24px;
+            color: #166534;
+            font-size: 0.9rem;
+        }
+
+        .success-message.show {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 968px) {
+            .login-left {
+                display: none;
+            }
+            
+            .login-right {
+                flex: none;
+                width: 100%;
+                padding: 40px 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            
+            .forgot-link {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Panel - Branding -->
+    <div class="login-left">
+        <div class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            SpendTrack
+        </div>
+        
+        <div class="login-left-content">
+            <h1>Take Control of Your Financial Future</h1>
+            <p>Track expenses, monitor savings, and achieve your financial goals with powerful analytics.</p>
+            
+            <div class="testimonial">
+                <p class="testimonial-text">"SpendTrack helped me save $5,000 in just 6 months by showing exactly where my money goes."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">SM</div>
+                    <div>
+                        <div class="testimonial-name">Sarah Mitchell</div>
+                        <div class="testimonial-role">Freelance Designer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-left-footer">
+            © 2024 SpendTrackFinance. All rights reserved.
+        </div>
+    </div>
+
+    <!-- Right Panel - Login Form -->
+    <div class="login-right">
+        <div class="login-form-container">
+            <div class="login-form-header">
+                <h2>Welcome back</h2>
+                <p>Don't have an account? <a href="#">Sign up for free</a></p>
+            </div>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <span>Login successful! Redirecting to dashboard...</span>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        class="form-input" 
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                    >
+                    <div class="form-error" id="emailError">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        class="form-input" 
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                    >
+                    <div class="form-error" id="passwordError">Password must be at least 6 characters</div>
+                </div>
+
+                <div class="form-row">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkbox-label">Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    Sign in
+                </button>
+            </form>
+
+            <div class="divider">or continue with</div>
+
+            <div class="social-login">
+                <button type="button" class="social-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Google
+                </button>
+                <button type="button" class="social-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Facebook
+                </button>
+            </div>
+
+            <div class="demo-credentials">
+                <div class="demo-credentials-title">Demo Credentials</div>
+                <div class="demo-credentials-text">
+                    Email: <strong>demo@spendtrack.com</strong><br>
+                    Password: <strong>demo123</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login Form Functionality
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('loginBtn');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const successMessage = document.getElementById('successMessage');
+
+        // Demo credentials
+        const DEMO_EMAIL = 'demo@spendtrack.com';
+        const DEMO_PASSWORD = 'demo123';
+
+        // Validate email format
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Show error
+        function showError(input, errorElement) {
+            input.classList.add('error');
+            errorElement.classList.add('show');
+        }
+
+        // Clear error
+        function clearError(input, errorElement) {
+            input.classList.remove('error');
+            errorElement.classList.remove('show');
+        }
+
+        // Real-time validation
+        emailInput.addEventListener('input', () => {
+            if (emailInput.value && !isValidEmail(emailInput.value)) {
+                showError(emailInput, emailError);
+            } else {
+                clearError(emailInput, emailError);
+            }
+        });
+
+        passwordInput.addEventListener('input', () => {
+            if (passwordInput.value && passwordInput.value.length < 6) {
+                showError(passwordInput, passwordError);
+            } else {
+                clearError(passwordInput, passwordError);
+            }
+        });
+
+        // Form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            let hasError = false;
+
+            // Validate email
+            if (!email) {
+                showError(emailInput, emailError);
+                emailError.textContent = 'Email is required';
+                hasError = true;
+            } else if (!isValidEmail(email)) {
+                showError(emailInput, emailError);
+                emailError.textContent = 'Please enter a valid email address';
+                hasError = true;
+            } else {
+                clearError(emailInput, emailError);
+            }
+
+            // Validate password
+            if (!password) {
+                showError(passwordInput, passwordError);
+                passwordError.textContent = 'Password is required';
+                hasError = true;
+            } else if (password.length < 6) {
+                showError(passwordInput, passwordError);
+                passwordError.textContent = 'Password must be at least 6 characters';
+                hasError = true;
+            } else {
+                clearError(passwordInput, passwordError);
+            }
+
+            if (hasError) return;
+
+            // Show loading state
+            loginBtn.classList.add('btn-loading');
+            loginBtn.disabled = true;
+
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Check credentials
+            if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+                // Success
+                successMessage.classList.add('show');
+                loginBtn.classList.remove('btn-loading');
+                loginBtn.textContent = 'Success!';
+                
+                // Store session
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+
+                // Redirect to dashboard after short delay
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            } else {
+                // Error - reset button
+                loginBtn.classList.remove('btn-loading');
+                loginBtn.disabled = false;
+                
+                // Show error message
+                showError(passwordInput, passwordError);
+                passwordError.textContent = 'Invalid email or password. Try demo@spendtrack.com / demo123';
+            }
+        });
+
+        // Check if already logged in
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</body>
+</html>
+
