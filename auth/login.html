@@ -127,7 +127,7 @@
         </div>
     </div>
 
-<script src="../assets/js/login.js"></script>
+<!-- <script src="../assets/js/login.js"></script> -->
 <script>    
 function login() {
     var email = document.getElementById("email").value;
@@ -149,14 +149,14 @@ function login() {
         })                  
         }
     ).then(res => res.json())
-    .then(data => { 
+     .then(data => { 
         if(data.success){
             emailError.style.display = "none";
             passwordError.style.display = "none";
             successMessage.style.display = "flex";
             loginBtn.disabled = true;
             setTimeout(function() {
-                window.location.href = '../dashboard/index.html';
+                window.location.href = '../pages/dashboard.html';
             }, 2000);
         } else {
             successMessage.style.display = "none";
