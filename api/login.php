@@ -1,24 +1,21 @@
 <?php
-
+header('Content-Type: application/json');
+session_start();
 include_once '../backend/conn.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+$data  = json_decode(file_get_contents('php://input'), true);
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->execute(['email' => $email]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+$email = $data['email'];
+$password = $data['password'];
 
-    if ($user && password_verify($password, $user['password'])) {
-        session_start();
-        $_SESSION['user_id'] = $user['id'];
-        echo json_encode(['success' => true, 'message' => 'Login successful']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
+if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+    echo json_encode(['status' => 'error', 'message' => 'Invalid email format']);
+    exit;
+    }
+if(strlen($password) < 6){
+    echo json_encode(['status' => 'error', 'message' => 'Password must be at least 6 characters']);
+    exit;
     }
 
-    $stmt->close();
-}
 
 ?>
